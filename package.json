@@ -1,0 +1,17 @@
+{
+  "name": "indiepitcher-node",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@biomejs/biome": "1.9.3",
+    "@types/node": "^22.7.4",
+    "typescript": "^5.6.2"
+  }
+}
