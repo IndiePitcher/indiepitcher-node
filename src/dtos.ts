@@ -20,3 +20,32 @@ export interface Contact {
   subscribedToLists: string[]
   customProperties: Record<string, string | number | boolean>
 }
+
+export interface CreateContact {
+  email: string
+  userId?: string
+  avatarUrl?: string
+  name?: string
+  languageCode?: string
+  hardBouncedAt?: string
+  subscribedToLists?: string[]
+  customProperties?: Record<string, string | number | boolean>
+  updateIfExists?: boolean
+  ignoreListSubscriptionsWhenUpdating?: boolean
+}
+
+export interface UpdateContact {
+  email: string
+  userId?: string
+  avatarUrl?: string
+  name?: string
+  languageCode?: string
+  hardBouncedAt?: string
+  addedListSubscripitons?: string[]
+  removedListSubscripitons?: string[]
+  customProperties?: Record<string, string | number | boolean | null>
+}
+
+export interface CreateMultipleContacts {
+  contacts: CreateContact[]
+}

@@ -1,6 +1,6 @@
 import { version } from '../package.json';
-import type { Contact, MailingList, MailingListPortalSession } from './dtos';
-import type { DataResponse, PagedDataResponse } from './responses';
+import type { Contact, CreateContact, MailingList, MailingListPortalSession } from './dtos';
+import type { DataResponse, EmptyResponse, PagedDataResponse } from './responses';
 
 export class IndiePitcher {
   private readonly headers: Headers;
@@ -86,6 +86,24 @@ export class IndiePitcher {
       page,
       per: perPage,
     });
+  }
+
+  async addContact(
+    contact: CreateContact
+  ): Promise<DataResponse<Contact>> {
+    return this.post<DataResponse<Contact>>(
+      '/contacts/create',
+      contact,
+    );
+  }
+
+  async deleteContact(
+    email: string
+  ): Promise<EmptyResponse> {
+    return this.post<EmptyResponse>(
+      '/contacts/delete',
+      {email},
+    );
   }
 
   async listMailingLists(

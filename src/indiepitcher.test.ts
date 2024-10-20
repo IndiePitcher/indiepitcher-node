@@ -29,3 +29,15 @@ test('list contacts', async () => {
   expect(contact.subscribedToLists[0]).toBe('test_list_1');
   expect(contact.subscribedToLists[1]).toBe('test_list_2');
 });
+
+test('manage contact', async () => {
+  const email = 'unittestuser@indiepitcher.com';
+
+  const contact = (await indiePitcher.addContact({email: email, subscribedToLists: ['test_list_1', 'test_list_2']})).data;
+  expect(contact.email).toBe(email);
+  expect(contact.subscribedToLists.length).toBe(2);
+  expect(contact.subscribedToLists).toContain('test_list_1');
+  expect(contact.subscribedToLists).toContain('test_list_2');
+
+  await indiePitcher.deleteContact(email);
+});
