@@ -20,6 +20,6 @@
       }
     },
     "files": {
-      "ignore": ["dist", "pnpm-lock.yaml"]
+      "ignore": ["dist"]
     }
   }

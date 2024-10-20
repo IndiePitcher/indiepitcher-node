@@ -1,9 +1,10 @@
 import { version } from '../package.json';
+import type { Contact, MailingList, MailingListPortalSession } from './dtos';
+import type { DataResponse, PagedDataResponse } from './responses';
 
 export class IndiePitcher {
-
   private readonly headers: Headers;
-  private readonly baseUrl = 'https://api.indiepitcher.com';
+  private readonly baseUrl = 'https://api.indiepitcher.com/v1';
   private readonly userAgent = `indiepitcher-node:${version}`;
 
   constructor(readonly key: string) {
@@ -15,11 +16,7 @@ export class IndiePitcher {
     });
   }
 
-  async fetchRequest<T>(
-    path: string,
-    options = {},
-  ): Promise<T> {
-
+  private async fetchRequest<T>(path: string, options = {}): Promise<T> {
     const response = await fetch(`${this.baseUrl}${path}`, options);
 
     if (!response.ok) {
@@ -31,53 +28,83 @@ export class IndiePitcher {
     return data;
   }
 
-  async post<T>(path: string, entity?: unknown) {
+  private async post<T>(path: string, entity?: unknown) {
     const requestOptions = {
       method: 'POST',
       headers: this.headers,
-      body: JSON.stringify(entity)
+      body: JSON.stringify(entity),
     };
 
     return this.fetchRequest<T>(path, requestOptions);
   }
 
-  async get<T>(path: string, query?: unknown) {
+  private async get<T>(path: string, query?: unknown) {
     const requestOptions = {
       method: 'GET',
       headers: this.headers,
-      query: query
+      query: query,
     };
 
     return this.fetchRequest<T>(path, requestOptions);
   }
 
-  async put<T>(path: string, entity: unknown) {
+  private async put<T>(path: string, entity: unknown) {
     const requestOptions = {
       method: 'PUT',
       headers: this.headers,
-      body: JSON.stringify(entity)
+      body: JSON.stringify(entity),
     };
 
     return this.fetchRequest<T>(path, requestOptions);
   }
 
-  async patch<T>(path: string, entity: unknown) {
+  private async patch<T>(path: string, entity: unknown) {
     const requestOptions = {
       method: 'PATCH',
       headers: this.headers,
-      body: JSON.stringify(entity)
+      body: JSON.stringify(entity),
     };
 
     return this.fetchRequest<T>(path, requestOptions);
   }
 
-  async delete<T>(path: string, query?: unknown) {
+  private async delete<T>(path: string, query?: unknown) {
     const requestOptions = {
       method: 'DELETE',
       headers: this.headers,
-      query: query
+      query: query,
     };
 
     return this.fetchRequest<T>(path, requestOptions);
+  }
+
+  async listContacts(
+    page = 1,
+    perPage = 10,
+  ): Promise<PagedDataResponse<Contact>> {
+    return this.get<PagedDataResponse<Contact>>('/contacts', {
+      page,
+      per: perPage,
+    });
+  }
+
+  async listMailingLists(
+    page = 1,
+    perPage = 10,
+  ): Promise<PagedDataResponse<MailingList>> {
+    return this.get<PagedDataResponse<MailingList>>('/lists', {
+      page,
+      per: perPage,
+    });
+  }
+
+  async createMailingListsPortalSession(
+    contactEmail: string,
+    returnURL: string,
+  ): Promise<DataResponse<MailingListPortalSession>> {
+    return this.post<DataResponse<MailingListPortalSession>>(
+      '/lists/portal_session',
+      { contactEmail, returnURL },
+    );
   }
 }
