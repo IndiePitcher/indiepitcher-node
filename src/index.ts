@@ -1,6 +1,18 @@
 import { version } from '../package.json';
-import type { Contact, CreateContact, MailingList, MailingListPortalSession } from './dtos';
-import type { DataResponse, EmptyResponse, PagedDataResponse } from './responses';
+import type {
+  Contact,
+  CreateContact,
+  MailingList,
+  MailingListPortalSession,
+  SendEmail,
+  SendEmailToContact,
+  SendEmailToMailingList,
+} from './dtos';
+import type {
+  DataResponse,
+  EmptyResponse,
+  PagedDataResponse,
+} from './responses';
 
 export class IndiePitcher {
   private readonly headers: Headers;
@@ -88,22 +100,12 @@ export class IndiePitcher {
     });
   }
 
-  async addContact(
-    contact: CreateContact
-  ): Promise<DataResponse<Contact>> {
-    return this.post<DataResponse<Contact>>(
-      '/contacts/create',
-      contact,
-    );
+  async addContact(contact: CreateContact): Promise<DataResponse<Contact>> {
+    return this.post<DataResponse<Contact>>('/contacts/create', contact);
   }
 
-  async deleteContact(
-    email: string
-  ): Promise<EmptyResponse> {
-    return this.post<EmptyResponse>(
-      '/contacts/delete',
-      {email},
-    );
+  async deleteContact(email: string): Promise<EmptyResponse> {
+    return this.post<EmptyResponse>('/contacts/delete', { email });
   }
 
   async listMailingLists(
@@ -124,5 +126,17 @@ export class IndiePitcher {
       '/lists/portal_session',
       { contactEmail, returnURL },
     );
+  }
+
+  async sendEmail(data: SendEmail): Promise<EmptyResponse> {
+    return this.post<EmptyResponse>('/email/transactional', data);
+  }
+
+  async sendEmailToContact(data: SendEmailToContact): Promise<EmptyResponse> {
+    return this.post<EmptyResponse>('/email/contact', data);
+  }
+
+  async sendEmailToMailingList(data: SendEmailToMailingList): Promise<EmptyResponse> {
+    return this.post<EmptyResponse>('/email/list', data);
   }
 }

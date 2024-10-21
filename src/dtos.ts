@@ -49,3 +49,30 @@ export interface UpdateContact {
 export interface CreateMultipleContacts {
   contacts: CreateContact[]
 }
+
+export interface SendEmail {
+  to: string
+  subject: string
+  body: string
+  bodyFormat: 'html' | 'markdown'
+}
+
+export interface SendEmailToContact {
+  contactEmail?: string
+  contactEmails?: string[]
+  subject: string
+  body: string
+  bodyFormat: 'html' | 'markdown'
+  list: string
+  delaySeconds?: number
+  delayUntilDate?: string
+}
+
+export interface SendEmailToMailingList {
+  subject: string
+  body: string
+  bodyFormat: 'html' | 'markdown'
+  list: string
+  delaySeconds?: number
+  delayUntilDate?: string
+}
