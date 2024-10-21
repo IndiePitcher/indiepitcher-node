@@ -7,7 +7,7 @@ Note: The IndiePitcher REST API and this SDK is not means to be used from your f
 ## Instalation
 
 ```
-npm install resend
+npm install indiepitcher
 ```
 
 ## Setup
