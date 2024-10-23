@@ -1,4 +1,5 @@
 import { IndiePitcher } from '.';
+import type { IndiePitcherResponseError } from './errors';
 
 require('dotenv').config();
 const apiKey = process.env.API_KEY;
@@ -8,6 +9,15 @@ const indiePitcher = new IndiePitcher(apiKey ?? '');
 afterEach(() => {
   // work around API rate limit
   return new Promise((resolve) => setTimeout(resolve, 1000));
+});
+
+test('invalid API key', async () => {
+  const indiePitcher = new IndiePitcher('xxx');
+  try {
+    await indiePitcher.listMailingLists();
+  } catch (error) {
+    expect((error as IndiePitcherResponseError).message).toBe('Unauthorized');
+  }
 });
 
 test('list mailing lists', async () => {

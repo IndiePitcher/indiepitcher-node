@@ -8,6 +8,7 @@ import type {
   SendEmailToContact,
   SendEmailToMailingList,
 } from './dtos';
+import { IndiePitcherResponseError } from './errors';
 import type {
   DataResponse,
   EmptyResponse,
@@ -32,8 +33,8 @@ export class IndiePitcher {
     const response = await fetch(`${this.baseUrl}${path}`, options);
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error);
+      const json = await response.json();
+      throw new IndiePitcherResponseError(json.reason ?? 'Unknown reason', response.status);
     }
 
     const data = await response.json();
