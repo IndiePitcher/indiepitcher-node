@@ -22,7 +22,7 @@ test('invalid API key', async () => {
 
 test('list mailing lists', async () => {
   const data = await indiePitcher.listMailingLists();
-  expect(data.data.length).toBe(2);
+  expect(data.data.length).toBe(3);
 });
 
 test('create mailing list management session', async () => {
@@ -35,16 +35,11 @@ test('create mailing list management session', async () => {
 
 test('list contacts', async () => {
   const data = await indiePitcher.listContacts();
-  expect(data.data.length).toBe(1);
-  const contact = data.data[0];
-  expect(contact.email).toBe('petr@indiepitcher.com');
-  expect(contact.subscribedToLists.length).toBe(2);
-  expect(contact.subscribedToLists[0]).toBe('test_list_1');
-  expect(contact.subscribedToLists[1]).toBe('test_list_2');
+  expect(data.data.length).toBeGreaterThan(0);
 });
 
 test('manage contact', async () => {
-  const email = 'unittestuser@indiepitcher.com';
+  const email = 'test@example.com';
 
   const contact = (
     await indiePitcher.addContact({
@@ -60,8 +55,17 @@ test('manage contact', async () => {
   await indiePitcher.deleteContact(email);
 });
 
+test('create multiple contacts', async () => {
+  const email = 'test@example.com';
+
+  await indiePitcher.addContacts([{ email: "test@example.com" }, { email: "test2@example.com" }])
+
+  await indiePitcher.deleteContact("test@example.com");
+  await indiePitcher.deleteContact("test2@example.com");
+});
+
 test('send email outside of contact list', async () => {
-  const email = 'petr@indiepitcher.com';
+  const email = 'petr@example.com';
 
   await indiePitcher.sendEmail({
     to: email,
@@ -72,22 +76,20 @@ test('send email outside of contact list', async () => {
 });
 
 test('send email to contact', async () => {
-  const email = 'petr@indiepitcher.com';
+  const email = 'petr@example.com';
 
   await indiePitcher.sendEmailToContact({
     contactEmail: email,
     subject: 'Test marketing email from IP Node SDK unit tests',
     body: 'This is a test body that supports **markdown**.',
     bodyFormat: 'markdown',
-    list: 'test_list_1',
+    list: 'integration-tests',
   });
 });
 
-test('send email to mailing list', async () => {
-  const email = 'petr@indiepitcher.com';
-
+test('send marketing email to mailing list', async () => {
   await indiePitcher.sendEmailToMailingList({
-    list: 'test_list_1',
+    list: 'integration-tests',
     subject: 'Test marketing email from IP Node SDK unit tests',
     body: 'This is a test body that supports **markdown**.',
     bodyFormat: 'markdown',

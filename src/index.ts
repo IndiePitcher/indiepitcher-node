@@ -7,6 +7,7 @@ import type {
   SendEmail,
   SendEmailToContact,
   SendEmailToMailingList,
+  UpdateContact,
 } from './dtos';
 import { IndiePitcherResponseError } from './errors';
 import type {
@@ -103,6 +104,14 @@ export class IndiePitcher {
 
   async addContact(contact: CreateContact): Promise<DataResponse<Contact>> {
     return this.post<DataResponse<Contact>>('/contacts/create', contact);
+  }
+
+  async updateContact(contact: UpdateContact): Promise<DataResponse<Contact>> {
+    return this.post<DataResponse<Contact>>('/contacts/update', contact);
+  }
+
+  async addContacts(contacts: CreateContact[]): Promise<EmptyResponse> {
+    return this.post<EmptyResponse>('/contacts/create_many', { contacts });
   }
 
   async deleteContact(email: string): Promise<EmptyResponse> {
