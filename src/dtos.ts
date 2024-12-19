@@ -55,6 +55,8 @@ export interface SendEmail {
   subject: string
   body: string
   bodyFormat: 'html' | 'markdown'
+  trackEmailOpens?: boolean
+  trackEmailClicks?: boolean
 }
 
 export interface SendEmailToContact {
@@ -66,6 +68,8 @@ export interface SendEmailToContact {
   list: string
   delaySeconds?: number
   delayUntilDate?: string
+  trackEmailOpens?: boolean
+  trackEmailClicks?: boolean
 }
 
 export interface SendEmailToMailingList {
@@ -75,4 +79,6 @@ export interface SendEmailToMailingList {
   list: string
   delaySeconds?: number
   delayUntilDate?: string
+  trackEmailOpens?: boolean
+  trackEmailClicks?: boolean
 }
