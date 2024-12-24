@@ -18,11 +18,12 @@ import type {
 
 export class IndiePitcher {
   private readonly headers: Headers;
-  private readonly baseUrl = 'https://api.indiepitcher.com/v1';
+  private readonly baseUrl: string;
   private readonly userAgent = `indiepitcher-node:${version}`;
 
-  constructor(readonly key: string) {
+  constructor(readonly key: string, baseUrl = "https://api.indiepitcher.com/v1") {
     this.key = key;
+    this.baseUrl = baseUrl;
     this.headers = new Headers({
       Authorization: `Bearer ${this.key}`,
       'User-Agent': this.userAgent,
