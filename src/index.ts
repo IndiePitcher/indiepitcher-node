@@ -103,6 +103,10 @@ export class IndiePitcher {
     });
   }
 
+  async findContact(email: string): Promise<DataResponse<Contact>> {
+    return this.get<DataResponse<Contact>>(`/contacts/find?email=${encodeURIComponent(email)}`);
+  }
+
   async addContact(contact: CreateContact): Promise<DataResponse<Contact>> {
     return this.post<DataResponse<Contact>>('/contacts/create', contact);
   }

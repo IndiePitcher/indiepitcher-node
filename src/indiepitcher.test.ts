@@ -38,6 +38,11 @@ test('list contacts', async () => {
   expect(data.data.length).toBeGreaterThan(0);
 });
 
+test('find contact', async () => {
+  const data = await indiePitcher.findContact('petr@indiepitcher.com');
+  expect(data.data.email).toBe('petr@indiepitcher.com');
+});
+
 test('manage contact', async () => {
   const email = 'test@example.com';
 
